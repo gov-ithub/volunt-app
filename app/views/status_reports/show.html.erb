@@ -4,17 +4,19 @@
   </div>
   <div class="row">
     <%= render @status_report do %>
-      <dd>
-        <%= form_for(@status_report, method: :patch) do |f| %>
-          <div class="btn-group" role='group'>
-            <%= link_to 'Edit', edit_status_report_path(@status_report), class: 'btn btn-default' %>
-            <% if @status_report.is_draft? %>
-              <%= f.submit 'Publica', class: 'btn btn-primary', name: 'publish_report' %>
-            <% end %>
-            <%= f.submit 'Delete', class: 'btn btn-danger', data: {confirm: 'Sterge raportul?'}, name: 'delete_report' %>
-          </div>
-        <% end %>
-      </dd>
+      <% if is_user_level_fellow? %>
+        <dd>
+          <%= form_for(@status_report, method: :patch) do |f| %>
+            <div class="btn-group" role='group'>
+              <%= link_to 'Edit', edit_status_report_path(@status_report), class: 'btn btn-default' %>
+              <% if @status_report.is_draft? %>
+                <%= f.submit 'Publica', class: 'btn btn-primary', name: 'publish_report' %>
+              <% end %>
+              <%= f.submit 'Delete', class: 'btn btn-danger', data: {confirm: 'Sterge raportul?'}, name: 'delete_report' %>
+            </div>
+          <% end %>
+        </dd>
+      <% end %>
     <% end %>
   </div>
 </div>
