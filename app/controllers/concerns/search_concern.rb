@@ -5,9 +5,9 @@ module SearchConcern
     return arel if value.blank?
 
     if value.start_with? 'NOT '
-      return arel.where.not("#{field} ILIKE ?", "%#{value.sub('NOT ', '')}%")
+      return arel.where.not("unaccent(#{field}) ILIKE unaccent(?)", "%#{value.sub('NOT ', '')}%")
     else
-      return arel.where("#{field} ILIKE ?", "%#{value}%")
+      return arel.where("unaccent(#{field}) ILIKE unaccent(?)", "%#{value}%")
     end
   end
 

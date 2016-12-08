@@ -10,28 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161120120317) do
+ActiveRecord::Schema.define(version: 20161205203552) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "communications", force: :cascade do |t|
-    t.integer  "user_id",                    null: false
-    t.string   "name",                       null: false
-    t.datetime "scheduled_time"
-    t.text     "description"
-    t.integer  "template_id"
-    t.text     "body"
-    t.string   "tags",                                    array: true
-    t.integer  "status",         default: 0, null: false
-    t.integer  "flags",          default: 0, null: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.index ["name"], name: "index_communications_on_name", unique: true, using: :btree
-    t.index ["tags"], name: "index_communications_on_tags", using: :gin
-    t.index ["template_id"], name: "index_communications_on_template_id", using: :btree
-    t.index ["user_id"], name: "index_communications_on_user_id", using: :btree
-  end
+  enable_extension "unaccent"
 
   create_table "meetings", force: :cascade do |t|
     t.string   "location",          null: false
@@ -134,21 +117,6 @@ ActiveRecord::Schema.define(version: 20161120120317) do
     t.index ["urls"], name: "index_projects_on_urls", using: :gin
   end
 
-  create_table "recipients", force: :cascade do |t|
-    t.integer  "communication_id",             null: false
-    t.integer  "profile_id",                   null: false
-    t.text     "last_exception"
-    t.datetime "scheduled_time"
-    t.integer  "retry_count",      default: 0, null: false
-    t.datetime "delivery_time"
-    t.integer  "status",           default: 0, null: false
-    t.integer  "flags",            default: 0, null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.index ["communication_id"], name: "index_recipients_on_communication_id", using: :btree
-    t.index ["profile_id"], name: "index_recipients_on_profile_id", using: :btree
-  end
-
   create_table "status_reports", force: :cascade do |t|
     t.integer  "project_id"
     t.integer  "profile_id"
@@ -201,15 +169,11 @@ ActiveRecord::Schema.define(version: 20161120120317) do
     t.index ["user_id"], name: "index_validation_tokens_on_user_id", using: :btree
   end
 
-  add_foreign_key "communications", "templates"
-  add_foreign_key "communications", "users"
   add_foreign_key "meetings_profiles", "meetings"
   add_foreign_key "meetings_profiles", "profiles"
   add_foreign_key "openings", "projects"
   add_foreign_key "project_members", "profiles"
   add_foreign_key "project_members", "projects"
-  add_foreign_key "recipients", "communications"
-  add_foreign_key "recipients", "profiles"
   add_foreign_key "status_reports", "profiles"
   add_foreign_key "status_reports", "profiles", column: "author_id"
   add_foreign_key "status_reports", "projects"
