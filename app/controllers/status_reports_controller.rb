@@ -1,6 +1,11 @@
 class StatusReportsController < ApplicationController
   include LoginConcern
-  authorization_required
+
+  authorization_required LoginConcern::USER_LEVEL_FELLOW,
+    except: [:index, :show]
+  authorization_required LoginConcern::USER_LEVEL_VOLUNTEER,
+    only: [:index, :show]
+
   before_action :set_status_report, only: [:show, :edit, :update, :destroy]
   before_action :set_profile_or_project, only: [:new, :create, :index]
 
