@@ -17,6 +17,7 @@ capybara-*.html
 .rspec
 .rvmrc
 .svn
+.idea/
 /.bundle
 /vendor/bundle
 /log/*

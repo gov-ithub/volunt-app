@@ -1,0 +1,4 @@
+<%= CSV.generate_line(%w(Nume Email Skills)) -%>
+<%- @profiles.each do |profile| -%>
+<%= CSV.generate_line([profile.full_name, profile.email, profile.skills.join(" ")]) -%>
+<%- end -%>

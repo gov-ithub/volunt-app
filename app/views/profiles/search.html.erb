@@ -2,4 +2,7 @@
   <div class="row">
     <%= render partial: 'shared/profiles_table', locals: {profiles: @profiles} %>
   </div>
+  <div class="row">
+    <%= link_to "CSV",  search_profiles_path(format: :csv, profile_search_presenter: params[:profile_search_presenter].to_hash) %>
+  </div>
 </div>

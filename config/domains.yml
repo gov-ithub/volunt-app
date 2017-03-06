@@ -3,7 +3,7 @@ common: &common
 
 development:
   <<: *common
-  mail_url_host: test-contribute.rusanu.com
+  mail_url_host: localhost:3000
 
 test:
   <<: *common

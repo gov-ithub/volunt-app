@@ -112,9 +112,17 @@ module ProfilesControllerConcern
     end
 
     @profiles = profiles.order(:full_name)
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        headers['Content-Disposition'] = "attachment; filename=\"user-list_#{Time.new.to_s(:number)}.csv\""
+        headers['Content-Type'] ||= 'text/csv'
+      end
+    end
+
     render 'profiles/search'
   end
-
 
   private
 
@@ -195,8 +203,8 @@ module ProfilesControllerConcern
         send(controller_edit_path, profile)
       end
 
-      define_method 'search_profiles_path' do
-        send(controllers_search_path)
+      define_method 'search_profiles_path' do |params = {}|
+        send(controllers_search_path, params)
       end
 
       helper_method :profile_resource_name
@@ -211,9 +219,6 @@ module ProfilesControllerConcern
       define_method 'profile_set_flag' do |profile|
         profile.flags = profile_flag
       end
-
     end
-
   end
-
 end
